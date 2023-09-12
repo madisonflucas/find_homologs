@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# usage: ./find_perfect_matches.sh <query file> <subject file> <output file>
+
+blastn -query "$1" -subject "$2" -task blastn-short -outfmt "6 qseqid sseqid pident length" -out temp_matches.txt
+
+awk '$3 == 100 && $4 == length($5)' temp_matches.txt > "$3"
+
+matches=$(wc -l < "$3")
+echo "Number of matches: $matches"
